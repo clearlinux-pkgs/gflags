@@ -4,7 +4,7 @@
 #
 Name     : gflags
 Version  : 2.2.0
-Release  : 12
+Release  : 13
 URL      : https://github.com/gflags/gflags/archive/v2.2.0.tar.gz
 Source0  : https://github.com/gflags/gflags/archive/v2.2.0.tar.gz
 Summary  : @PACKAGE_DESCRIPTION@
