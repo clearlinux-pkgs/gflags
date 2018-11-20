@@ -4,7 +4,7 @@
 #
 Name     : gflags
 Version  : 2.2.2
-Release  : 18
+Release  : 19
 URL      : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Source0  : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Summary  : @PACKAGE_DESCRIPTION@
@@ -18,14 +18,6 @@ BuildRequires : buildreq-cmake
 %description
 [![Build Status](https://travis-ci.org/gflags/gflags.svg?branch=master)](https://travis-ci.org/gflags/gflags)
 [![Build status](https://ci.appveyor.com/api/projects/status/4ctod566ysraus74/branch/master?svg=true)](https://ci.appveyor.com/project/schuhschuh/gflags/branch/master)
-
-%package abi
-Summary: abi components for the gflags package.
-Group: Default
-
-%description abi
-abi components for the gflags package.
-
 
 %package bin
 Summary: bin components for the gflags package.
@@ -72,7 +64,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542038043
+export SOURCE_DATE_EPOCH=1542735933
 mkdir -p clr-build
 pushd clr-build
 %cmake .. -DBUILD_SHARED_LIBS:BOOL=ON
@@ -87,7 +79,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 ctest
 
 %install
-export SOURCE_DATE_EPOCH=1542038043
+export SOURCE_DATE_EPOCH=1542735933
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gflags
 cp COPYING.txt %{buildroot}/usr/share/package-licenses/gflags/COPYING.txt
@@ -98,11 +90,6 @@ popd
 %files
 %defattr(-,root,root,-)
 /builddir/.cmake/packages/gflags/1517893d82dfcf97475a559a3d57ec1c
-
-%files abi
-%defattr(-,root,root,-)
-/usr/share/abi/libgflags.so.2.2.2.abi
-/usr/share/abi/libgflags_nothreads.so.2.2.2.abi
 
 %files bin
 %defattr(-,root,root,-)
