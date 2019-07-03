@@ -4,7 +4,7 @@
 #
 Name     : gflags
 Version  : 2.2.2
-Release  : 21
+Release  : 23
 URL      : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Source0  : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Summary  : @PACKAGE_DESCRIPTION@
@@ -34,6 +34,7 @@ Group: Development
 Requires: gflags-lib = %{version}-%{release}
 Requires: gflags-bin = %{version}-%{release}
 Provides: gflags-devel = %{version}-%{release}
+Requires: gflags = %{version}-%{release}
 
 %description dev
 dev components for the gflags package.
@@ -63,33 +64,43 @@ license components for the gflags package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1542735933
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1562190910
 mkdir -p clr-build
 pushd clr-build
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake .. -DBUILD_SHARED_LIBS:BOOL=ON
 make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 ctest
 
 %install
-export SOURCE_DATE_EPOCH=1542735933
+export SOURCE_DATE_EPOCH=1562190910
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gflags
 cp COPYING.txt %{buildroot}/usr/share/package-licenses/gflags/COPYING.txt
 pushd clr-build
 %make_install
 popd
+## install_append content
+rm -rf %{buildroot}/builddir
+## install_append end
 
 %files
 %defattr(-,root,root,-)
-/builddir/.cmake/packages/gflags/1517893d82dfcf97475a559a3d57ec1c
 
 %files bin
 %defattr(-,root,root,-)
