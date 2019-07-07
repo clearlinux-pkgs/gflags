@@ -4,10 +4,10 @@
 #
 Name     : gflags
 Version  : 2.2.2
-Release  : 23
+Release  : 24
 URL      : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Source0  : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
-Summary  : @PACKAGE_DESCRIPTION@
+Summary  : C++ Library for commandline flag processing
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: gflags-bin = %{version}-%{release}
@@ -34,6 +34,7 @@ Group: Development
 Requires: gflags-lib = %{version}-%{release}
 Requires: gflags-bin = %{version}-%{release}
 Provides: gflags-devel = %{version}-%{release}
+Requires: gflags = %{version}-%{release}
 Requires: gflags = %{version}-%{release}
 
 %description dev
@@ -65,7 +66,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562190910
+export SOURCE_DATE_EPOCH=1562494743
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -88,7 +89,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 ctest
 
 %install
-export SOURCE_DATE_EPOCH=1562190910
+export SOURCE_DATE_EPOCH=1562494743
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gflags
 cp COPYING.txt %{buildroot}/usr/share/package-licenses/gflags/COPYING.txt
@@ -97,6 +98,7 @@ pushd clr-build
 popd
 ## install_append content
 rm -rf %{buildroot}/builddir
+chmod a+x %{buildroot}/usr/bin/*
 ## install_append end
 
 %files

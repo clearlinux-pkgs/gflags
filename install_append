@@ -1,1 +1,2 @@
 rm -rf %{buildroot}/builddir
+chmod a+x %{buildroot}/usr/bin/*
