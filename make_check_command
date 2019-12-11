@@ -1,1 +1,3 @@
+pushd  clr-build
 ctest
+popd

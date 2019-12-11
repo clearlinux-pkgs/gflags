@@ -4,10 +4,10 @@
 #
 Name     : gflags
 Version  : 2.2.2
-Release  : 24
+Release  : 29
 URL      : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
 Source0  : https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
-Summary  : C++ Library for commandline flag processing
+Summary  : @PACKAGE_DESCRIPTION@
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: gflags-bin = %{version}-%{release}
@@ -16,8 +16,9 @@ Requires: gflags-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 
 %description
-[![Build Status](https://travis-ci.org/gflags/gflags.svg?branch=master)](https://travis-ci.org/gflags/gflags)
-[![Build status](https://ci.appveyor.com/api/projects/status/4ctod566ysraus74/branch/master?svg=true)](https://ci.appveyor.com/project/schuhschuh/gflags/branch/master)
+The gflags package contains a C++ library that implements commandline flags processing.
+It includes built-in support for standard types such as string and the ability to define
+flags in the source file in which they are used.
 
 %package bin
 Summary: bin components for the gflags package.
@@ -34,7 +35,6 @@ Group: Development
 Requires: gflags-lib = %{version}-%{release}
 Requires: gflags-bin = %{version}-%{release}
 Provides: gflags-devel = %{version}-%{release}
-Requires: gflags = %{version}-%{release}
 Requires: gflags = %{version}-%{release}
 
 %description dev
@@ -60,13 +60,14 @@ license components for the gflags package.
 
 %prep
 %setup -q -n gflags-2.2.2
+cd %{_builddir}/gflags-2.2.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562494743
+export SOURCE_DATE_EPOCH=1576081279
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -77,8 +78,10 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-%cmake .. -DBUILD_SHARED_LIBS:BOOL=ON
-make  %{?_smp_mflags} VERBOSE=1
+%cmake .. -DBUILD_SHARED_LIBS:BOOL=ON \
+-DBUILD_TESTING:BOOL=ON \
+-DLIBRARY_INSTALL_DIR:PATH=lib64
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %check
@@ -86,13 +89,17 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
+pushd  clr-build
+
 ctest
 
+popd
+
 %install
-export SOURCE_DATE_EPOCH=1562494743
+export SOURCE_DATE_EPOCH=1576081279
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gflags
-cp COPYING.txt %{buildroot}/usr/share/package-licenses/gflags/COPYING.txt
+cp %{_builddir}/gflags-2.2.2/COPYING.txt %{buildroot}/usr/share/package-licenses/gflags/b2d4ab17f1b8ef9e0646ba932dce81efe3b852ab
 pushd clr-build
 %make_install
 popd
@@ -133,4 +140,4 @@ chmod a+x %{buildroot}/usr/bin/*
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/gflags/COPYING.txt
+/usr/share/package-licenses/gflags/b2d4ab17f1b8ef9e0646ba932dce81efe3b852ab
